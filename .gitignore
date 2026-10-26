@@ -1,0 +1,44 @@
+
+# Python virtual environments
+backend/venv/
+backend/.venv/
+venv/
+.venv/
+
+# Python generated files
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Django and local databases
+*.sqlite3
+*.sqlite3-journal
+*.log
+local_settings.py
+media/
+staticfiles/
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+
+# React and Node.js
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+node_modules/
+dist/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
