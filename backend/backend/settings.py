@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'anymail',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -148,7 +149,6 @@ AUTH_USER_MODEL = 'userauths.User'
 
 
 MAILGUN_API_KEY = env("MAILGUN_API_KEY")
-MAILERSEND_API_TOKEN = env("MAILERSEND_API_TOKEN")
 MAILGUN_SENDER_DOMAIN = env("MAILGUN_SENDER_DOMAIN")
 
 ANYMAIL = {
@@ -160,7 +160,7 @@ ANYMAIL = {
 
 # FROM_EMAIL = vipin@gmail.com
 FROM_EMAIL = env("FROM_EMAIL")
-EMAIL_BACKEND = 'anymail.backend.mailgun.EmailBackend'
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
