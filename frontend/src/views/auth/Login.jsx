@@ -1,10 +1,31 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+
+import apiInstance from '../../utils/axios'
+import {login} from '../../utils/auth'
+
 import BaseHeader from '../partials/BaseHeader'
 import BaseFooter from '../partials/BaseFooter'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
 
 
 function Login() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { error } = await login(email, password)
+    if (error){
+      alert(error);
+    } else {
+      navigate("/");
+    }
+  };
   return (
     <>
       <BaseHeader />
@@ -24,7 +45,7 @@ function Login() {
                   </span>
                 </div>
                 {/* Form */}
-                <form className="needs-validation" noValidate="">
+                <form className="needs-validation" noValidate="" onSubmit = {handleSubmit}>
                   {/* Username */}
                   <div className="mb-3">
                     <label htmlFor="email" className="form-label">
@@ -37,6 +58,7 @@ function Login() {
                       name="email"
                       placeholder="johndoe@gmail.com"
                       required=""
+                      onChange = {(e) => setEmail(e.target.value)}
                     />
                     <div className="invalid-feedback">
                       Please enter valid username.
@@ -54,6 +76,7 @@ function Login() {
                       name="password"
                       placeholder="**************"
                       required=""
+                      onChange = {(e) => setPassword(e.target.value)}
                     />
                     <div className="invalid-feedback">
                       Please enter valid password.
