@@ -12,7 +12,7 @@ export const login = async (email, password) => {
         });
         if (status === 200) {
             setAuthUser(data.access, data.refresh);
-            alert("Login Successfull")
+            // alert("Login Successfull")
         }
         
         return { data, error: null };
@@ -20,7 +20,7 @@ export const login = async (email, password) => {
         return{
             data: null,
             error: error.response.data?.detail || "Something went wrong",
-        }
+        };
     }
 };
 
@@ -35,12 +35,17 @@ export const register = async (full_name, email, password, password2) => {
         });
 
         await login(email, password);
-        alert("Registration Successfull");
+        // alert("Registration Successfull");
         return { data, error: null};
     } catch (error) {
+        // alert(error.response.data.email);
+        // alert(error.response.data.full_name);
+        // alert();
         return {
             data: null,
-            error: error.response.data?.detail || "Something went wrong",
+            error: 
+            `${error.response.data.full_name}- ${error.response.data.email}` || 
+            "Something went wrong",
         };
     }
     
@@ -51,9 +56,6 @@ export const logout = () =>{
     Cookie.remove("access_token");
     Cookie.remove("refresh_token");
     useAuthStore.getState().setUser(null);
-
-    alert("You have been logged out")
-
 };
 
 
@@ -61,7 +63,7 @@ export const logout = () =>{
 
 export const getRefreshToken = async () => {
     const refresh_token = Cookie.get("refresh_token");
-    const response = await axios.post('token/refresh/', {
+    const response = await axios.post('user/token/refresh/', {
         refresh: refresh_token,
     });
     return response.data;
