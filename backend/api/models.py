@@ -206,7 +206,7 @@ class Question_Answer(models.Model):
     class Meta:
         ordering = ["-date"]
 
-    def message(self):
+    def messages(self):
         return Question_Answer_Message.objects.filter(question=self)
 
     def profile(self):
