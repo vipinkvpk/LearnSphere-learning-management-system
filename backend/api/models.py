@@ -87,8 +87,8 @@ class Teacher(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=100)
     image = models.FileField(upload_to="course-file", default = "category.jpg")
-    slug = models.SlugField(unique = True)
-
+    active = models.BooleanField(default=True)
+    slug = models.SlugField(unique = True, null=True, blank=True)
     class Meta:
         verbose_name_plural = "Category"
         ordering = ['title']
@@ -130,7 +130,7 @@ class Course(models.Model):
         if self.slug == "" or self.slug == None:
             self.slug = slugify(self.title )
             # Learn Pthon = learn-python 
-        super(Category, self).save(*args, **kwargs)
+        super(Course, self).save(*args, **kwargs)
 
 
     def students(self):
@@ -238,7 +238,7 @@ class Cart(models.Model):
     tax_fee = models.DecimalField(max_digits=12, default=0.00, decimal_places=2)
     total = models.DecimalField(max_digits=12, default=0.00, decimal_places=2)
     country = models.CharField(max_length=100, null = True, blank = True)
-    cart_id = ShortUUIDField(unique= True, length= 6, max_length=20, alphabet = "1234567890")
+    cart_id = ShortUUIDField(length= 6, max_length=20, alphabet = "1234567890")
     date = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
@@ -275,11 +275,12 @@ class CartOrderItem(models.Model):
     order = models.ForeignKey(CartOrder, on_delete=models.CASCADE, related_name="orderitem")
     course=models.ForeignKey(Course, on_delete=models.CASCADE, related_name="order_item")
     teacher = models.ForeignKey(Teacher, on_delete= models.CASCADE)
+    price = models.DecimalField(max_digits=12, default=0.00, decimal_places=2)
     tax_fee = models.DecimalField(max_digits=12, default=0.00, decimal_places=2)
     total = models.DecimalField(max_digits=12, default=0.00, decimal_places=2)    
     initial_total = models.DecimalField(max_digits=12, default=0.00, decimal_places=2)    
     saved = models.DecimalField(max_digits=12, default=0.00, decimal_places=2)    
-    coupons = models.ForeignKey("api.Coupon", on_delete=models.SET_NULL,null=True,blank=True)
+    coupons = models.ManyToManyField("api.Coupon", blank=True)
     applied_coupon = models.BooleanField(default=False)
     oid = ShortUUIDField(unique= True, length= 6, max_length=20, alphabet = "1234567890")
     date = models.DateTimeField(default=timezone.now)
